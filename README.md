@@ -3,6 +3,7 @@
 **In this exercise I have used redux and react-hook-form to manage state and value of input**
 
 **Step1:** Create a store that include initial state and reducer
+
 ![h1](images/Screenshot 2025-06-11 102032.png)
 
 **Step2:** Using useDispatch and useSelector to get and set data input receive from react-hook-form
