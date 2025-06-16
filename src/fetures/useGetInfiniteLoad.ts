@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getDataInfiniteLoad } from "../fetchApi/getDataInfiniteLoad";
 
 export const useGetInfiniteLoad = ({ query = "*" }) => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status, error } =
     useInfiniteQuery({
       queryKey: ["authors", query],
       queryFn: () => getDataInfiniteLoad({ query }),
@@ -11,5 +11,7 @@ export const useGetInfiniteLoad = ({ query = "*" }) => {
       initialPageParam: 1,
     });
 
-  return { data, fetchNextPage, hasNextPage, isFetchingNextPage, status };
+    
+
+  return { data, fetchNextPage, hasNextPage, isFetchingNextPage, status, error };
 };

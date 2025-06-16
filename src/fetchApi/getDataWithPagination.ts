@@ -32,7 +32,12 @@ export const getDataWithPagination = async ({
 
     return { docs, numFound };
   } catch (error) {
-    console.log(error);
+    if (axios.isAxiosError(error)) {
+      console.log("error message: ", error.message);
+      throw new Error(error.message);
+    } else {
+      console.log("unexpected error: ", error);
+    }
     return [];
   }
 };

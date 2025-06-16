@@ -33,16 +33,21 @@ const Pagination = ({ count }: { count: number }) => {
       </p>
       <div className="flex items-center bg-slate-800 rounded-lg">
         {page > 1 && (
-          <div
+          <div data-testid="previous-page"
             onClick={() => handleSetPage(page - 1)}
             className="py-2 px-3 hover:cursor-pointer hover:bg-slate-950 transition-all duration-300  rounded-md"
           >
             <MdOutlineKeyboardArrowLeft size={20} />
           </div>
         )}
-        <div className="py-2 px-3 rounded-md bg-green-500">{page}</div>
+        <div
+          data-testid="current-page"
+          className="py-2 px-3 rounded-md bg-green-500"
+        >
+          {page}
+        </div>
         {page < MAX_PAGE && (
-          <div
+          <div data-testid="next-page"
             onClick={() => handleSetPage(page + 1)}
             className="py-2 px-3 hover:cursor-pointer hover:bg-slate-950 transition-all duration-300  rounded-md"
           >
