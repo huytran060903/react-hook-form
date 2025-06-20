@@ -103,7 +103,10 @@ const Header = () => {
               Loading...
             </div>
           ) : data?.pages[0].authors.length === 0 ? (
-            <div data-testid="data-notfound" className="p-2 rounded border border-gray-300 shadow-sm">
+            <div
+              data-testid="data-notfound"
+              className="p-2 rounded border border-gray-300 shadow-sm"
+            >
               Not found
             </div>
           ) : (

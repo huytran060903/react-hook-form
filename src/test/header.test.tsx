@@ -74,8 +74,9 @@ describe("Header Component", () => {
 
   it("should show data not found", async () => {
     renderHeader();
-    const searchInput = screen.getByPlaceholderText(/search/i);
+    const searchInput = screen.getByPlaceholderText(/search infinite load/i);
 
+    
     fireEvent.change(searchInput, { target: { value: "sdklasjdkask" } });
 
     const errorElement = await screen.findByTestId("data-notfound");
