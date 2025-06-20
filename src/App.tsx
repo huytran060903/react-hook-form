@@ -11,9 +11,15 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { updateFormData, type Inputs } from "./store/store.ts";
 import { useDispatch, useSelector } from "react-redux";
 const App = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [curFilter, setCurFilter] = useState("books");
 
   const dataInput = useSelector((state: Inputs) => state.search);
+  const [typeBook, setTypeBook] = useState(
+    searchParams.get("mode") || "everything"
+  );
+
   const dispatch = useDispatch();
 
   const {
@@ -25,8 +31,6 @@ const App = () => {
 
   const { search } = watch();
 
-  const [, setSearchParams] = useSearchParams();
-
   const { data, isLoading, isError } = useGetDataWithPagination();
 
   const onSubmit: SubmitHandler<Inputs> = () => {
@@ -34,6 +38,14 @@ const App = () => {
       filter: curFilter.toLowerCase(),
       search: dataInput,
       page: "1",
+      mode: typeBook,
+    });
+  };
+  const handleChangeTypeBook = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTypeBook(e.target.value);
+    setSearchParams((searchParams) => {
+      searchParams.set("mode", e.target.value);
+      return searchParams;
     });
   };
 
@@ -58,12 +70,12 @@ const App = () => {
                 {...register("search", {
                   required: "Search is required",
                   minLength: {
-                    value: 3,
-                    message: "Search must be at least 3 characters",
+                    value: 1,
+                    message: "Search must be at least 1 characters",
                   },
                   maxLength: {
-                    value: 20,
-                    message: "Search must be not exceed 20 characters",
+                    value: 30,
+                    message: "Search must be not exceed 30 characters",
                   },
                 })}
                 placeholder="Search"
@@ -78,18 +90,41 @@ const App = () => {
                 </p>
               )}
             </div>
-            <div className="flex items-center gap-2">
-              <input name="type_book" defaultChecked type="radio" />
-              <label>Everything</label>
-            </div>
-            <div className="flex items-center gap-2">
-              <input name="type_book" type="radio" />
-              <label>Ebooks</label>
-            </div>
+            {curFilter === "books" && (
+              <>
+                <div className="flex items-center gap-2">
+                  <input
+                    value="everything"
+                    checked={typeBook === "everything"}
+                    onChange={handleChangeTypeBook}
+                    name="type_book"
+                    defaultChecked
+                    type="radio"
+                  />
+                  <label>Everything</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    name="type_book"
+                    checked={typeBook === "ebooks"}
+                    onChange={handleChangeTypeBook}
+                    value="ebooks"
+                    type="radio"
+                  />
+                  <label>Ebooks</label>
+                </div>
+              </>
+            )}
           </form>
         </div>
       </div>
-      <div className="px-8 py-3 grid grid-cols-12">
+      <div className="px-8 py-3 grid grid-cols-12 gap-3">
+        {!isLoading &&
+          !isError &&
+          !Array.isArray(data) &&
+          data?.numFound > 0 && (
+            <p className="col-span-12 my-3">Found: {data?.numFound} </p>
+          )}
         {isLoading ? (
           <div className="col-span-12 text-center">Loading</div>
         ) : data && !Array.isArray(data) && data.docs && data?.numFound ? (

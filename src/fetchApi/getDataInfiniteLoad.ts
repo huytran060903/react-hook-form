@@ -1,15 +1,36 @@
 import axios from "axios";
-import { NUMBER_ITEM_IN_A_PAGE } from "../constants";
+import { BASE_URL, ITEMS_PER_PAGE } from "../constants";
+import { getStringParams, type StringParams } from "../utils/helper";
 
 export const getDataInfiniteLoad = async ({ pageParam = 1, query = "*" }) => {
+  const offset = (pageParam - 1) * ITEMS_PER_PAGE;
+
+  const arrStringParams: StringParams[] = [
+    {
+      key: "q",
+      value: query,
+      setNew: true,
+    },
+    {
+      key: "offset",
+      value: offset.toString(),
+      setNew: true,
+    },
+    {
+      key: "limit",
+      value: ITEMS_PER_PAGE.toString(),
+      setNew: true,
+    },
+  ];
+
+  const params = getStringParams(arrStringParams);
+
   const res = await axios.get(
-    `https://openlibrary.org/search/authors.json?q=${query}&offset=${
-      (pageParam - 1) * NUMBER_ITEM_IN_A_PAGE
-    }&limit=${NUMBER_ITEM_IN_A_PAGE}`
+    `${BASE_URL}/search/authors.json?${params.toString()}`
   );
   return {
     authors: res.data.docs,
-    nextOffset: pageParam + NUMBER_ITEM_IN_A_PAGE,
-    hasMore: res.data.docs.length === NUMBER_ITEM_IN_A_PAGE,
+    nextOffset: pageParam + ITEMS_PER_PAGE,
+    hasMore: res.data.docs.length === ITEMS_PER_PAGE,
   };
 };

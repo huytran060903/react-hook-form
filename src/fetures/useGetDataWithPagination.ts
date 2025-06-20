@@ -7,8 +7,7 @@ export const useGetDataWithPagination = () => {
 
   const filter = searchParams.get("filter") || "books";
   const search = searchParams.get("search") || "hello";
-
-  
+  const mode = searchParams.get("mode") || "everything";
 
   const filterObj: { title: string; author: string } = {
     title: "",
@@ -22,13 +21,12 @@ export const useGetDataWithPagination = () => {
     }
   });
 
- 
-
   const page = Number(searchParams.get("page") || "1");
 
   const { data, isLoading, isError } = useQuery({
-    queryFn: () => getDataWithPagination({ filter, search, page,filterObj }),
-    queryKey: ["data", filter, search, page,filterObj],
+    queryFn: () =>
+      getDataWithPagination({ filter, search, page, mode, filterObj }),
+    queryKey: ["data", filter, search, page, mode, filterObj],
   });
 
   return { data, isLoading, isError };
