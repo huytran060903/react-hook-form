@@ -5,6 +5,8 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosQrScanner } from "react-icons/io";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useGetInfiniteLoad } from "../features/useGetInfiniteLoad";
+import { useDebounce } from "use-debounce";
+
 
 const optionsType: string[] = [
   "All",
@@ -20,6 +22,7 @@ const Header = () => {
   const [curOption, setCurOption] = useState<string>("All");
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const [curInp, setCurInp] = useState<string>("");
+  const [debouncedInp] = useDebounce(curInp, 500); // Debounce input for 500ms
   const {
     data,
     fetchNextPage,
@@ -27,7 +30,7 @@ const Header = () => {
     isFetchingNextPage,
     error,
     status,
-  } = useGetInfiniteLoad({ query: curInp });
+  } = useGetInfiniteLoad({ query: debouncedInp });
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCurOption(event.target.value);
