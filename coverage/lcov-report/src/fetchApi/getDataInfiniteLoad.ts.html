@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -78,13 +78,55 @@
 <a name='L13'></a><a href='#L13'>13</a>
 <a name='L14'></a><a href='#L14'>14</a>
 <a name='L15'></a><a href='#L15'>15</a>
-<a name='L16'></a><a href='#L16'>16</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
@@ -94,18 +136,39 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import axios from "axios";
-import { NUMBER_ITEM_IN_A_PAGE } from "../constants";
+import { BASE_URL, ITEMS_PER_PAGE } from "../constants";
+import { getStringParams, type StringParams } from "../utils/helper";
 &nbsp;
 export const getDataInfiniteLoad = async ({ pageParam = 1, query = <span class="branch-0 cbranch-no" title="branch not covered" >"*" </span>}) =&gt; {
+  const offset = (pageParam - 1) * ITEMS_PER_PAGE;
+&nbsp;
+  const arrStringParams: StringParams[] = [
+    {
+      key: "q",
+      value: query,
+      setNew: true,
+    },
+    {
+      key: "offset",
+      value: offset.toString(),
+      setNew: true,
+    },
+    {
+      key: "limit",
+      value: ITEMS_PER_PAGE.toString(),
+      setNew: true,
+    },
+  ];
+&nbsp;
+  const params = getStringParams(arrStringParams);
+&nbsp;
   const res = await axios.get(
-    `https://openlibrary.org/search/authors.json?q=${query}&amp;offset=${
-      (pageParam - 1) * NUMBER_ITEM_IN_A_PAGE
-    }&amp;limit=${NUMBER_ITEM_IN_A_PAGE}`
+    `${BASE_URL}/search/authors.json?${params.toString()}`
   );
   return {
     authors: res.data.docs,
-    nextOffset: pageParam + NUMBER_ITEM_IN_A_PAGE,
-    hasMore: res.data.docs.length === NUMBER_ITEM_IN_A_PAGE,
+    nextOffset: pageParam + ITEMS_PER_PAGE,
+    hasMore: res.data.docs.length === ITEMS_PER_PAGE,
   };
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -115,7 +178,7 @@ export const getDataInfiniteLoad = async ({ pageParam = 1, query = <span class="
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-16T09:44:51.871Z
+                at 2025-06-20T07:11:42.410Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -105,7 +105,6 @@ const App = () => {
                     checked={typeBook === "everything"}
                     onChange={handleChangeTypeBook}
                     name="type_book"
-                    defaultChecked
                     type="radio"
                   />
                   <label>Everything</label>

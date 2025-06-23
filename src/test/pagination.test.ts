@@ -37,7 +37,7 @@ describe("getDataWithPagination", () => {
     });
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      `https://openlibrary.org/search.json?title=test&offset=0&limit=${ITEMS_PER_PAGE}`
+      `https://openlibrary.org/search.json?offset=0&limit=${ITEMS_PER_PAGE}&title=test&mode=everything`
     );
     expect(result).toEqual({
       docs: mockResponse.data.docs,
@@ -64,7 +64,7 @@ describe("getDataWithPagination", () => {
     });
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      `https://openlibrary.org/search.json?author=test&offset=0&limit=${ITEMS_PER_PAGE}`
+      `https://openlibrary.org/search.json?offset=0&limit=${ITEMS_PER_PAGE}&author=test&mode=everything`
     );
     expect(result).toEqual({
       docs: mockResponse.data.docs,
@@ -91,7 +91,7 @@ describe("getDataWithPagination", () => {
     });
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      `https://openlibrary.org/search.json?title=test&offset=0&limit=${ITEMS_PER_PAGE}&author=author`
+      `https://openlibrary.org/search.json?offset=0&limit=${ITEMS_PER_PAGE}&title=test&author=author&mode=everything`
     );
     expect(result).toEqual({
       docs: mockResponse.data.docs,
@@ -135,7 +135,7 @@ describe("getDataWithPagination", () => {
 
     const expectedOffset = (3 - 1) * ITEMS_PER_PAGE;
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      `https://openlibrary.org/search.json?title=test&offset=${expectedOffset}&limit=${ITEMS_PER_PAGE}`
+      `https://openlibrary.org/search.json?offset=${expectedOffset}&limit=${ITEMS_PER_PAGE}&title=test&mode=everything`
     );
   });
 });
