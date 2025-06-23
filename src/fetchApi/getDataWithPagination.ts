@@ -15,20 +15,6 @@ export const getDataWithPagination = async ({
   mode: string;
   filterObj: { title: string; author: string };
 }) => {
-  // let url = "https://openlibrary.org/search.json?";
-  // const offset = (page - 1) * NUMBER_ITEM_IN_A_PAGE;
-
-  // if (filterObj.author && filterObj.title) {
-  //   url += `title=${filterObj.title}&offset=${offset}&limit=${NUMBER_ITEM_IN_A_PAGE}&author=${filterObj.author}`;
-  // } else {
-  //   if (filter === "books") {
-  //     url += `title=${search}&offset=${offset}&limit=${NUMBER_ITEM_IN_A_PAGE}`;
-  //   } else if (filter === "authors") {
-  //     url += `author=${search}&offset=${offset}&limit=${NUMBER_ITEM_IN_A_PAGE}`;
-  //   }
-  // }
-
- 
   const offset = (page - 1) * ITEMS_PER_PAGE;
 
   const arrStringParams: StringParams[] = [

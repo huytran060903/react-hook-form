@@ -21,7 +21,11 @@ export const useGetDataWithPagination = () => {
     }
   });
 
-  const page = Number(searchParams.get("page") || "1");
+  const page = Number(
+    searchParams.get("page") && Number(searchParams.get("page")) > 0
+      ? searchParams.get("page")
+      : "1"
+  );
 
   const { data, isLoading, isError } = useQuery({
     queryFn: () =>
