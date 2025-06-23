@@ -27,6 +27,8 @@ export const getDataWithPagination = async ({
   //     url += `author=${search}&offset=${offset}&limit=${NUMBER_ITEM_IN_A_PAGE}`;
   //   }
   // }
+
+ 
   const offset = (page - 1) * ITEMS_PER_PAGE;
 
   const arrStringParams: StringParams[] = [

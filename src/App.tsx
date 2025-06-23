@@ -124,7 +124,7 @@ const App = () => {
           </form>
         </div>
       </div>
-      {search && (
+      {searchParams.get("search") && (
         <div className="px-8 py-3 grid grid-cols-12 gap-3">
           {!isLoading &&
             !isError &&
@@ -146,7 +146,8 @@ const App = () => {
       <div className="flex justify-end w-full">
         {!isLoading &&
           !isError &&
-          !Array.isArray(data) && search &&
+          !Array.isArray(data) &&
+          search &&
           (data?.numFound as number) > 0 && (
             <Pagination count={data?.numFound} />
           )}
