@@ -124,27 +124,29 @@ const App = () => {
           </form>
         </div>
       </div>
-      <div className="px-8 py-3 grid grid-cols-12 gap-3">
-        {!isLoading &&
-          !isError &&
-          !Array.isArray(data) &&
-          data?.numFound > 0 && (
-            <p className="col-span-12 my-3">Found: {data?.numFound} </p>
+      {search && (
+        <div className="px-8 py-3 grid grid-cols-12 gap-3">
+          {!isLoading &&
+            !isError &&
+            !Array.isArray(data) &&
+            data?.numFound > 0 && (
+              <p className="col-span-12 my-3">Found: {data?.numFound} </p>
+            )}
+          {isLoading ? (
+            <div className="col-span-12 text-center">Loading</div>
+          ) : data && !Array.isArray(data) && data.docs && data?.numFound ? (
+            data.docs.map((item: Author | Book, index: number) => (
+              <Item key={index} book={curFilter === "books"} item={item} />
+            ))
+          ) : (
+            <p className="text-center w-full">Not found </p>
           )}
-        {isLoading ? (
-          <div className="col-span-12 text-center">Loading</div>
-        ) : data && !Array.isArray(data) && data.docs && data?.numFound ? (
-          data.docs.map((item: Author | Book, index: number) => (
-            <Item key={index} book={curFilter === "books"} item={item} />
-          ))
-        ) : (
-          <p className="text-center w-full">Not found </p>
-        )}
-      </div>
+        </div>
+      )}
       <div className="flex justify-end w-full">
         {!isLoading &&
           !isError &&
-          !Array.isArray(data) &&
+          !Array.isArray(data) && search &&
           (data?.numFound as number) > 0 && (
             <Pagination count={data?.numFound} />
           )}

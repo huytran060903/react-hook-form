@@ -6,7 +6,7 @@ export const useGetDataWithPagination = () => {
   const [searchParams] = useSearchParams();
 
   const filter = searchParams.get("filter") || "books";
-  const search = searchParams.get("search") || "hello";
+  const search = searchParams.get("search") || "";
   const mode = searchParams.get("mode") || "everything";
 
   const filterObj: { title: string; author: string } = {
