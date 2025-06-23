@@ -4,7 +4,7 @@ import Heading from "./components/Heading.tsx";
 import Search from "./components/Search.tsx";
 import { CiSearch } from "react-icons/ci";
 import { useSearchParams } from "react-router-dom";
-import { useGetDataWithPagination } from "./fetures/useGetDataWithPagination.ts";
+import { useGetDataWithPagination } from "./features/useGetDataWithPagination.ts";
 import Item, { type Author, type Book } from "./components/Item.tsx";
 import Pagination from "./components/Pagination.tsx";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -13,7 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 const App = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [curFilter, setCurFilter] = useState("books");
+  const [curFilter, setCurFilter] = useState(
+    searchParams.get("filter") || "books"
+  );
 
   const dataInput = useSelector((state: Inputs) => state.search);
   const [typeBook, setTypeBook] = useState(
@@ -26,6 +28,7 @@ const App = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
     watch,
   } = useForm<Inputs>();
 
@@ -53,6 +56,10 @@ const App = () => {
   useEffect(() => {
     dispatch(updateFormData({ search }));
   }, [search, dispatch]);
+
+  useEffect(() => {
+    setValue("search", searchParams.get("search") || "");
+  }, [searchParams, setValue]);
 
   return (
     <div className="w-full p-0 m-0 box-border flex flex-col">

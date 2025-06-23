@@ -8,6 +8,8 @@ const initialState: Inputs = {
   search: "",
 };
 
+console.log("Initial state:", initialState);
+
 export const updateFormData = (data: Inputs) => ({
   type: "UPDATE",
   payload: data,
